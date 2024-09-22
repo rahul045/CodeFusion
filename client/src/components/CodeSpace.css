@@ -20,3 +20,138 @@
     width: 100%;
     height: 40vh;
 }
+
+/* Header Styles */
+.header {
+    background-color: #007bff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.header button {
+    background-color: #fff;
+    color: #007bff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.header button:hover {
+    background-color: #f0f0f0;
+}
+
+/* Screen Layout */
+.screen {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25%;
+}
+
+.input,
+.output {
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="textarea"] {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.output p {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: monospace;
+}
+
+/* Buttons */
+button {
+    margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #465668;
+
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #1b74cd;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    /* Space between buttons */
+}
+
+.run-code-btn,
+.save-code-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.run-code-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+.run-code-btn:disabled {
+    background-color: #6c757d;
+    /* Gray out the button when disabled */
+}
+
+/* Save Code Button */
+.save-code-btn {
+    background-color: #28a745;
+    /* Green background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+.save-code-btn:disabled {
+    background-color: #6c757d;
+    /* Gray out the button when disabled */
+}
+
+/* Hover state for Save Code button */
+/* .save-code-btn:hover {
+    background-color: #218838;
+   
+    color: white;
+   
+} */

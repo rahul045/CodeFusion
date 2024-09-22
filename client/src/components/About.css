@@ -1,0 +1,69 @@
+.about-container {
+    margin-top: 50px;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.about-title {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+.about-description {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.card-row {
+    display: flex;
+    justify-content: center;
+}
+
+.about-card {
+    transition: transform 0.3s ease-in-out;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.about-card:hover {
+    transform: translateY(-10px);
+}
+
+.card-title {
+    font-size: 22px;
+    color: #007bff;
+}
+
+.card-text {
+    font-size: 16px;
+    color: #666;
+}
+
+.learn-more-btn {
+    margin-top: 10px;
+    background-color: #007bff;
+    border: none;
+}
+
+.learn-more-btn:hover {
+    background-color: #0056b3;
+}
+
+.fade-in {
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

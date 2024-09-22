@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-const Login = ({ switchToRegister }) => {
+const Login = ({ switchToRegister, onLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -11,7 +11,7 @@ const Login = ({ switchToRegister }) => {
         e.preventDefault();
 
         try {
-            const response = await fetch(`${process.env.REACT_HOST}/api/auth/login`, {
+            const response = await fetch(`${process.env.REACT_APP_HOST}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,7 +25,8 @@ const Login = ({ switchToRegister }) => {
                 // Save token to local storage (or handle it however you want)
                 localStorage.setItem('token', data.token);
                 console.log('Login successful!', data);
-                navigate('/');
+                onLogin();
+                navigate('/dashboard');
 
             } else {
                 setError(data.msg || 'Login failed!');

@@ -6,6 +6,7 @@ const projectSchema = new mongoose.Schema({
     description: String,
     code: { type: String, default: '' },
     collaborators: [String], // Array of user IDs or emails
+    createdBy: String,
     createdAt: { type: Date, default: Date.now },
 });
 

@@ -1,0 +1,17 @@
+.navbar {
+    margin-bottom: 20px;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-link {
+    margin: 0 15px;
+    font-size: 18px;
+}
+
+button {
+    margin-left: 15px;
+}

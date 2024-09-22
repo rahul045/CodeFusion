@@ -3,8 +3,13 @@ const http = require('http');
 const socketIo = require('socket.io');
 const connectDB = require('./db'); // Import the database connection function
 const projectRoutes = require('./routes/createProject'); // Import routes for projects
-
+const cors = require('cors');
 const app = express();
+const getProject = require('./routes/fetchProject'); // Adjust the path based on your directory
+const addCode = require('./routes/addCode');
+const checkCollaborator = require('./routes/checkCollaborator');
+// Mount project-related routes
+
 // const bodyParser = require('body-parser');
 require('dotenv').config();
 
@@ -17,6 +22,11 @@ const io = socketIo(server, {
         credentials: true
     }
 });
+app.use(cors({
+    origin: 'http://localhost:3000',  // Your React app's origin
+    methods: ['GET', 'POST'],
+    credentials: true
+}));
 
 // Connect to MongoDB
 connectDB(); // Call the function to connect to the database
@@ -28,7 +38,9 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api', projectRoutes);
-
+app.use('/api', getProject);
+app.use('/api', checkCollaborator);
+app.use('/api', addCode);
 // Socket.IO setup
 io.on('connection', (socket) => {
     console.log('A user connected:', socket.id);
