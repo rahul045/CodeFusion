@@ -17,13 +17,13 @@ require('dotenv').config();
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: "http://localhost:3000", // The origin of your React app
+        origin: `${process.env.REACT_APP}`, // The origin of your React app
         methods: ["GET", "POST"],
         credentials: true
     }
 });
 app.use(cors({
-    origin: 'http://localhost:3000',  // Your React app's origin
+    origin: `${process.env.REACT_APP}`,  // Your React app's origin
     methods: ['GET', 'POST'],
     credentials: true
 }));
