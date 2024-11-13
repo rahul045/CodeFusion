@@ -5,15 +5,37 @@ import axios from 'axios';
 import { Buffer } from 'buffer';
 import { Input, FormGroup, Label, Button, Spinner } from 'reactstrap';
 import './CodeSpace.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const socket = io(process.env.REACT_APP_SOCKET); // Connect to the WebSocket server
 
 const CodeSpace = () => {
     const location = useLocation();
-    const { projectData } = location.state || {};
-    const [projectId, setProjectId] = useState(projectData?.projectId || '');
-    const [code, setCode] = useState(projectData?.projectCode || '');
+    const navigate = useNavigate();
+    // const { projectData } = location.state || {};
+    // const [projectId, setProjectId] = useState(projectData?.projectId || '');
+    // if (!projectId) {
+    //     console.error('Project data not found!');
+    //     navigate('/dashboard'); // Optionally navigate back to the dashboard if data is missing
+    // }
+    // console.log("DG");
+    // console.log(projectId);
+    // const [code, setCode] = useState(projectData?.projectCode || '');
+    const [code, setCode] = useState('');
+    const [projectId, setProjectId] = useState('');
+    useEffect(() => {
+        // Retrieve project data passed via navigation
+        const { pId, projectCode } = location.state?.projectData || {};
+
+        if (!pId) {
+            console.error('Project data not found!');
+            navigate('/dashboard'); // Optionally navigate back to the dashboard if data is missing
+        }
+
+
+        setCode(projectCode);
+        setProjectId(pId);
+    }, [location, navigate]);
     const [output, setOutput] = useState('');
     const [input, setInput] = useState('');
     const [isRunning, setIsRunning] = useState(false); // For showing loading state
@@ -96,6 +118,40 @@ const CodeSpace = () => {
         }
     };
 
+    useEffect(() => {
+        const fetchCode = async () => {
+            if (!projectId) return;
+
+            try {
+                const response = await fetch(`${process.env.REACT_APP_HOST}/api/fetchCode/${projectId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': localStorage.getItem('token'),
+                    },
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Failed to fetch project code:', errorData?.msg || response.statusText);
+                    return;
+                }
+
+                const data = await response.json();
+                if (data && data.code) {
+
+
+                    setCode(data.code);
+                } else {
+                    console.error('Unexpected response structure:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching code on refresh:', error);
+            }
+        };
+
+        fetchCode();
+    }, [projectId]);
     // Fetch output using the token
     const getOutput = async (token) => {
         const options = {
@@ -161,7 +217,7 @@ const CodeSpace = () => {
     return (
         <div>
             <div className="header">
-                <h1>CodeSpace - Project ID: {projectId}</h1>
+                <h1>Project ID: {projectId}</h1>
                 <div className="button-container">
                     <button className="run-code-btn" onClick={loop} disabled={isRunning}>
                         {isRunning ? <Spinner size="sm" /> : 'Run Code'}

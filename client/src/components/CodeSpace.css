@@ -1,24 +1,42 @@
+/* Base Styles */
 .screen {
     display: flex;
+    gap: 15px;
+    padding: 20px;
 }
 
 .box {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    width: 20%;
+    justify-content: space-between;
+    width: 25%;
 }
 
-.input {
-    height: 40vh;
-    border: 2px solid black;
-    width: 100%;
+.input,
+.output {
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    color: black;
+    border-radius: 8px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 .output {
-    border: 2px solid black;
-    width: 100%;
-    height: 40vh;
+    height: 40%;
+}
+
+.output p {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: monospace;
+}
+
+input[type="textarea"] {
+    border-radius: 8px;
+    padding: 10px;
+    color: black;
 }
 
 /* Header Styles */
@@ -49,41 +67,6 @@
     background-color: #f0f0f0;
 }
 
-/* Screen Layout */
-.screen {
-    display: flex;
-    gap: 15px;
-    padding: 20px;
-}
-
-.box {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 25%;
-}
-
-.input,
-.output {
-    margin-bottom: 20px;
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
-}
-
-input[type="textarea"] {
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.output p {
-    background-color: #e9ecef;
-    padding: 10px;
-    border-radius: 5px;
-    font-family: monospace;
-}
-
 /* Buttons */
 button {
     margin: 10px 0;
@@ -98,21 +81,6 @@ button {
 
 button:hover {
     background-color: #465668;
-
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #1b74cd;
-}
-
-.button-container {
-    display: flex;
-    gap: 10px;
-    /* Space between buttons */
 }
 
 .run-code-btn,
@@ -127,31 +95,102 @@ button:hover {
     color: white;
     border: none;
     border-radius: 4px;
+    margin: 3px;
 }
 
-.run-code-btn:disabled {
-    background-color: #6c757d;
-    /* Gray out the button when disabled */
-}
-
-/* Save Code Button */
-.save-code-btn {
-    background-color: #28a745;
-    /* Green background */
-    color: white;
-    border: none;
-    border-radius: 4px;
-}
-
+.run-code-btn:disabled,
 .save-code-btn:disabled {
     background-color: #6c757d;
     /* Gray out the button when disabled */
 }
 
-/* Hover state for Save Code button */
-/* .save-code-btn:hover {
-    background-color: #218838;
-   
+.save-code-btn {
+    background-color: #28a745;
     color: white;
-   
-} */
+    border: none;
+    border-radius: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .screen {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .box,
+    .screen {
+        width: 100%;
+    }
+
+    .box,
+    .input,
+    .output {
+        width: 90%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .run-code-btn,
+    .save-code-btn {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    .input,
+    .output {
+        padding: 10px;
+        height: 30vh;
+    }
+
+    /* Adjust Editor Height for Small Screens */
+    .screen Editor {
+        height: 60vh;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .screen {
+        padding: 10px;
+    }
+
+    .input,
+    .output {
+        color: black;
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    /* Buttons */
+    button {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .run-code-btn,
+    .save-code-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,67 @@
+body {
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.inputs,
+.inputs:active {
+    /* background: none; */
+    border: none;
+    border-bottom: 2px solid white;
+    height: 50px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    background-color: transparent;
+    outline: none;
+    color: white;
+    width: 500px;
+    -webkit-appearance: none;
+    /* For WebKit browsers */
+    -moz-appearance: none;
+    /* For Firefox */
+    appearance: none;
+}
+
+.log {
+    height: 300px;
+    width: 300px;
+}
+
+.cont {
+    position: relative;
+    left: 500px;
+    bottom: 250px;
+    width: 500px;
+    color: white;
+    height: fit-content;
+}
+
+.btn {
+    border-radius: 8px;
+    background-color: black;
+    border: 2px solid white;
+    color: white;
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+}
+
+.btn:hover {
+    background-color: greenyellow;
+    border: 2px solid black;
+    color: black;
+}
+
+.txt {
+    font-size: 20px;
+}
+
+.sp {
+    color: blue;
+}
+
+.sp:hover {
+    cursor: pointer;
+    color: greenyellow;
+}

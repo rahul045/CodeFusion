@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Button,
     Card,
     CardBody,
     CardTitle,
@@ -20,7 +19,7 @@ import {
     ListGroup,
     ListGroupItem,
 } from 'reactstrap';
-import { FaEye, FaPlus, FaSignInAlt, FaTrash } from 'react-icons/fa'; // Removed FaStar
+import { FaEye, FaPlus, FaSignInAlt, FaTrash } from 'react-icons/fa';
 import './Dashboard.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,7 +35,8 @@ const Dashboard = () => {
     });
     const [collaboratorEmail, setCollaboratorEmail] = useState('');
     const [projectID, setProjectID] = useState('');
-    const [projectList, setProjectList] = useState([]);
+    const [createdProjects, setCreatedProjects] = useState([]);
+    const [collaboratorProjects, setCollaboratorProjects] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
     const toggleCreateModal = () => setCreateModal(!createModal);
@@ -47,7 +47,8 @@ const Dashboard = () => {
         setNewProject({ ...newProject, [name]: value });
     };
 
-    const handleAddCollaborator = () => {
+    const handleAddCollaborator = (event) => {
+        event.preventDefault();
         if (collaboratorEmail && !newProject.collaborators.includes(collaboratorEmail)) {
             setNewProject({
                 ...newProject,
@@ -101,7 +102,8 @@ const Dashboard = () => {
             const data = await response.json();
 
             if (response.ok) {
-                setProjectList(data);
+                setCreatedProjects(data.createdProjects || []);
+                setCollaboratorProjects(data.collaborativeProjects || []);
             } else {
                 console.error(data.msg || 'Failed to fetch projects');
             }
@@ -128,7 +130,7 @@ const Dashboard = () => {
             const data = await response.json();
 
             if (response.ok) {
-                navigate('/project', { state: { projectData: { projectId: projectID } } });
+                navigate('/project', { state: { projectData: { pId: projectID, projectCode: "" } } });
             } else {
                 alert(data.msg || 'Failed to join the project. You may not be a collaborator.');
             }
@@ -139,12 +141,16 @@ const Dashboard = () => {
         toggleJoinModal();
     };
 
-    const filteredProjects = projectList.filter((project) =>
+    const filteredCreatedProjects = createdProjects.filter((project) =>
+        project.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const filteredCollaboratorProjects = collaboratorProjects.filter((project) =>
         project.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const handleView = (projectId, code) => {
-        navigate('/project', { state: { projectData: { projectId, projectCode: code } } });
+        navigate('/project', { state: { projectData: { pId: projectId, projectCode: code } } });
     };
 
     return (
@@ -152,9 +158,9 @@ const Dashboard = () => {
             <h1 className='dashboard-title'>Welcome to CodeFusion</h1>
 
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <Button color="success" onClick={toggleCreateModal}>
+                <button className="pbtn" onClick={toggleCreateModal}>
                     <FaPlus className="me-2" /> Create Project
-                </Button>
+                </button>
                 <Input
                     type="text"
                     placeholder="Search Projects..."
@@ -162,25 +168,18 @@ const Dashboard = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="search-input"
                 />
-                <Button color="primary" onClick={toggleJoinModal}>
+                <button className="pbtn" onClick={toggleJoinModal}>
                     <FaSignInAlt className="me-2" /> Join Project
-                </Button>
+                </button>
             </div>
 
-            <h2 className='dashboard-subtitle'>My Past Projects</h2>
+            <h2 className='dashboard-subtitle'>My Created Projects</h2>
 
             <Row className="card-row">
-                {filteredProjects.length > 0 ? (
-                    filteredProjects.map((project, index) => (
-                        <Col key={index} md="4" className="project-col">
-                            <Card className="project-card shadow-sm">
-                                <div className="card-header">
-                                    <img
-                                        alt="Project"
-                                        src="https://picsum.photos/300/200"
-                                        className="card-image"
-                                    />
-                                </div>
+                {filteredCreatedProjects.length > 0 ? (
+                    filteredCreatedProjects.map((project, index) => (
+                        <Col key={index} xs="12" sm="6" md="4" className="project-col">
+                            <Card className="project-card shadow-sm" style={{ backgroundColor: '#f4f6f9', borderRadius: '10px' }}>
                                 <CardBody>
                                     <CardTitle tag="h5" className="card-title">
                                         {project.title}
@@ -191,12 +190,12 @@ const Dashboard = () => {
                                     <CardText>
                                         Collaborators: {project.collaborators.join(', ')}
                                     </CardText>
-                                    <Button
-                                        color="primary"
-                                        onClick={() => handleView(project.projectId, project.code)}
+                                    <button
+                                        className='pbtn'
+                                        onClick={() => handleView(project._id, project.code)}
                                     >
                                         <FaEye className="me-2" /> View More
-                                    </Button>
+                                    </button>
                                 </CardBody>
                             </Card>
                         </Col>
@@ -206,8 +205,40 @@ const Dashboard = () => {
                 )}
             </Row>
 
-            <Modal isOpen={createModal} toggle={toggleCreateModal}>
-                <ModalHeader toggle={toggleCreateModal}>Create New Project</ModalHeader>
+            <h2 className='dashboard-subtitle'>Projects I'm Collaborating On</h2>
+
+            <Row className="card-row">
+                {filteredCollaboratorProjects.length > 0 ? (
+                    filteredCollaboratorProjects.map((project, index) => (
+                        <Col key={index} xs="12" sm="6" md="4" className="project-col">
+                            <Card className="project-card shadow-sm" style={{ backgroundColor: '#f4f6f9', borderRadius: '10px' }}>
+                                <CardBody>
+                                    <CardTitle tag="h5" className="card-title">
+                                        {project.title}
+                                    </CardTitle>
+                                    <CardSubtitle className="mb-2 text-muted" tag="h6">
+                                        {project.description}
+                                    </CardSubtitle>
+                                    <CardText>
+                                        Collaborators: {project.collaborators.join(', ')}
+                                    </CardText>
+                                    <button
+                                        className='pbtn'
+                                        onClick={() => handleView(project._id, project.code)}
+                                    >
+                                        <FaEye className="me-2" /> View More
+                                    </button>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    ))
+                ) : (
+                    <p>No projects found</p>
+                )}
+            </Row>
+
+            <Modal isOpen={createModal} toggle={toggleCreateModal} size="lg">
+                <ModalHeader toggle={toggleCreateModal} style={{ color: "black" }}>Create New Project</ModalHeader>
                 <ModalBody>
                     <Form>
                         <FormGroup>
@@ -235,57 +266,48 @@ const Dashboard = () => {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="collaborators">Collaborators</Label>
-                            <div className="d-flex">
-                                <Input
-                                    id="collaborators"
-                                    placeholder="Enter collaborator email"
-                                    type="email"
-                                    value={collaboratorEmail}
-                                    onChange={(e) => setCollaboratorEmail(e.target.value)}
-                                />
-                                <Button
-                                    color="success"
-                                    className="ms-2"
-                                    onClick={handleAddCollaborator}
-                                >
-                                    Add
-                                </Button>
-                            </div>
-
-                            {newProject.collaborators.length > 0 && (
-                                <ListGroup className="mt-2">
-                                    {newProject.collaborators.map((email) => (
-                                        <ListGroupItem key={email} className="d-flex justify-content-between align-items-center">
-                                            {email}
-                                            <FaTrash className="text-danger" onClick={() => handleRemoveCollaborator(email)} />
-                                        </ListGroupItem>
-                                    ))}
-                                </ListGroup>
-                            )}
+                            <Label for="collaboratorEmail">Add Collaborators</Label>
+                            <Input
+                                id="collaboratorEmail"
+                                name="collaboratorEmail"
+                                placeholder="Enter collaborator email"
+                                type="email"
+                                value={collaboratorEmail}
+                                onChange={(e) => setCollaboratorEmail(e.target.value)}
+                            />
+                            <button className='pbtn' onClick={handleAddCollaborator}>
+                                Add Collaborator
+                            </button>
                         </FormGroup>
+
+                        <ListGroup>
+                            {newProject.collaborators.map((email, index) => (
+                                <ListGroupItem key={index}>
+                                    {email}
+                                    <button type="button" className="sbtn" onClick={() => handleRemoveCollaborator(email)}>
+                                        <FaTrash />
+                                    </button>
+                                </ListGroupItem>
+                            ))}
+                        </ListGroup>
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={handleCreateSubmit}>
-                        Create
-                    </Button>{' '}
-                    <Button color="secondary" onClick={toggleCreateModal}>
-                        Cancel
-                    </Button>
+                    <button className='pbtn' onClick={handleCreateSubmit}>Create Project</button>{' '}
+                    <button className='sbtn' onClick={toggleCreateModal}>Cancel</button>
                 </ModalFooter>
             </Modal>
 
             <Modal isOpen={joinModal} toggle={toggleJoinModal}>
-                <ModalHeader toggle={toggleJoinModal}>Join Project</ModalHeader>
+                <ModalHeader toggle={toggleJoinModal} style={{ color: "black" }}>Join a Project</ModalHeader>
                 <ModalBody>
                     <Form>
                         <FormGroup>
-                            <Label for="projectId">Project ID</Label>
+                            <Label for="projectID">Project ID</Label>
                             <Input
-                                id="projectId"
-                                name="projectId"
-                                placeholder="Enter project ID"
+                                id="projectID"
+                                name="projectID"
+                                placeholder="Enter project ID to join"
                                 type="text"
                                 value={projectID}
                                 onChange={(e) => setProjectID(e.target.value)}
@@ -294,12 +316,8 @@ const Dashboard = () => {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={handleJoinSubmit}>
-                        Join
-                    </Button>{' '}
-                    <Button color="secondary" onClick={toggleJoinModal}>
-                        Cancel
-                    </Button>
+                    <button className='pbtn' onClick={handleJoinSubmit}>Join Project</button>{' '}
+                    <button className='sbtn' onClick={toggleJoinModal}>Cancel</button>
                 </ModalFooter>
             </Modal>
         </Container>

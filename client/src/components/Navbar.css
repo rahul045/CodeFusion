@@ -15,3 +15,17 @@
 button {
     margin-left: 15px;
 }
+
+.pos {
+    position: relative;
+    bottom: 8px;
+    height: 45px;
+}
+
+.head {
+    font-size: 30px;
+}
+
+.ht {
+    height: 60px;
+}

@@ -12,8 +12,8 @@ const MyNavbar = () => {
     };
 
     return (
-        <Navbar color="light" light expand="md" className="mb-4">
-            <NavbarBrand tag={Link} to="/dashboard">CodeFusion</NavbarBrand>
+        <Navbar color="light" light expand="md" className="mb-4 ht">
+            <NavbarBrand tag={Link} to="/dashboard" className='head'>CodeFusion</NavbarBrand>
             <Nav className="ml-auto" navbar>
                 <NavItem>
                     <NavLink tag={Link} to="/dashboard">Dashboard</NavLink>
@@ -22,7 +22,7 @@ const MyNavbar = () => {
                     <NavLink tag={Link} to="/about">About</NavLink>
                 </NavItem>
                 <NavItem>
-                    <Button color="danger" onClick={handleLogout}>
+                    <Button color="danger" className='pos' onClick={handleLogout}>
                         Logout
                     </Button>
                 </NavItem>

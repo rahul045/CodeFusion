@@ -1,3 +1,28 @@
+html,
+body {
+    overflow: hidden;
+    background: url('./assets/bg3.jpg');
+    background-size: cover;
+    /* Makes the background image cover the entire page */
+    background-position: center center;
+    /* Centers the image horizontally and vertically */
+    background-repeat: no-repeat;
+    /* Prevents the body scrollbar from appearing */
+}
+
+body {
+    /* scroll-behavior: smooth; */
+    overflow-y: auto;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+}
+
+.dashboard-container::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+}
+
 .dashboard-container {
     padding: 30px;
 }
@@ -28,6 +53,11 @@
 .project-card {
     position: relative;
     transition: transform 0.2s ease-in-out;
+
+}
+
+.card-body {
+    background-color: rgb(232, 227, 221);
 }
 
 .project-card:hover {
@@ -59,4 +89,113 @@
 
 .shadow-sm {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.pbtn {
+    border-radius: 8px;
+    background-color: black;
+    border: 2px solid white;
+    color: white;
+    width: fit-content;
+    height: 50px;
+    font-size: 20px;
+}
+
+.pbtn:hover {
+    background-color: greenyellow;
+    border: 2px solid black;
+    color: black;
+}
+
+.sbtn {
+    border-radius: 8px;
+    background-color: black;
+    border: 2px solid white;
+    color: white;
+    width: fit-content;
+    height: 50px;
+    font-size: 20px;
+}
+
+.sbtn:hover {
+    background-color: rgb(234, 57, 57);
+    border: 2px solid black;
+    color: black;
+}
+
+.project-card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-subtitle {
+    font-size: 1rem;
+    color: #555;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.dashboard-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #949191;
+    text-align: center;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-subtitle {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #4a90e2;
+    /* A soft blue color */
+    margin-bottom: 20px;
+    text-transform: capitalize;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-subtitle-second {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 15px;
+    text-transform: capitalize;
+}
+
+h1,
+h2,
+h3 {
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+h2 {
+    color: #4a90e2;
+    /* Blue color for section titles */
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+h3 {
+    color: #d2cdcd;
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #f1f1f1;
 }
