@@ -12,8 +12,8 @@ router.post('/createProject', authMiddleware, async (req, res) => {
             return res.status(400).json({ error: 'Title and description are required' });
         }
 
-        const userEmail = req.user.email; // Assuming authMiddleware populates req.user
-        console.log('User Email:', userEmail); // Check if user email is present
+        const userEmail = req.user.email;
+        // console.log('User Email:', userEmail); // Check if user email is present
 
         const newProject = new Project({
             title,
@@ -22,7 +22,7 @@ router.post('/createProject', authMiddleware, async (req, res) => {
             createdBy: userEmail,
         });
 
-        console.log('Creating new project:', newProject); // Log the project data for debugging
+        // console.log('Creating new project:', newProject); // Log the project data for debugging
 
         // Save project to the database
         const savedProject = await newProject.save();

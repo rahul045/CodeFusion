@@ -5,12 +5,12 @@ const connectDB = require('./db'); // Import the database connection function
 const projectRoutes = require('./routes/createProject'); // Import routes for projects
 const cors = require('cors');
 const app = express();
-const getProject = require('./routes/fetchProject'); // Adjust the path based on your directory
+const getProject = require('./routes/fetchProject');
 const addCode = require('./routes/addCode');
 const checkCollaborator = require('./routes/checkCollaborator');
-// Mount project-related routes
+const fetchCode = require('./routes/fetchCode')
 
-// const bodyParser = require('body-parser');
+
 require('dotenv').config();
 
 
@@ -22,6 +22,7 @@ const io = socketIo(server, {
         credentials: true
     }
 });
+
 app.use(cors({
     origin: `${process.env.REACT_APP}`,  // Your React app's origin
     methods: ['GET', 'POST'],
@@ -41,6 +42,7 @@ app.use('/api', projectRoutes);
 app.use('/api', getProject);
 app.use('/api', checkCollaborator);
 app.use('/api', addCode);
+app.use('/api', fetchCode);
 // Socket.IO setup
 io.on('connection', (socket) => {
     console.log('A user connected:', socket.id);
